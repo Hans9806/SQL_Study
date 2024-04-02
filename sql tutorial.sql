@@ -4,7 +4,7 @@ SELECT MEMBERNAME, MEMBERADDRESS FROM MEMBERTBL;
 SELECT * FROM MEMBERTBL WHERE MEMBERNAME = '지운이';
 
 -- 테이블의 생성과 삭제
-CREATE TABLE `my test_tbl` (id INT);
+CREATE TABLE `my test_tbl` (Id INT);
 DROP TABLE `my test_tbl`;
 
 -- 인덱스 생성 (데이터 삽입 및 비교)
