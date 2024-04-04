@@ -87,9 +87,22 @@ WHERE PatientID = 1;
 
 -- 문제 8: 'Appointments' 테이블에서 특정 날짜의 모든 예약 삭제하기
 -- 예약 날짜가 "2023-04-20"인 모든 예약 삭제하기
+DESC Appointments;
+SELECT * FROM Appointments;
+DELETE FROM Appointments
+WHERE AppointmentDate = '2023-04-20';
 
 -- 문제 9: 'MedicalRecords' 테이블에서 특정 진단을 가진 모든 기록 삭제하기
 -- 진단이 "Seasonal Allergies"인 모든 의료 기록 삭제하기
+DESC MedicalRecords;
+SELECT * FROM MedicalRecords;
+DELETE FROM MedicalRecords
+WHERE Diagnosis ='Seasonal Allergies';
 
 -- 문제 10: 'Patients' 테이블에 여러 환자 동시에 추가하기
 -- 환자 정보: ("Alice Johnson", "1992-08-24", "F", "555-1234"), ("Bob Williams", "1980-03-15", "M", "555-5678")
+DESC Patients;
+SELECT * FROM Patients;
+INSERT INTO Patients (Name, BirthDate, Gender, PhoneNumber)
+VALUES ('Alice Johnson','1992-08-24','F','555-1234'),
+		('Bob Williams','1980-03-15','M','555-5678');
