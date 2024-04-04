@@ -78,8 +78,11 @@
 
 # SQL (Struectured Query Language)
  - 관계형 데이터베이스(RDBMS)에서 데이터를 관리하기 위해 사용하는 표준화된 언어
- - 데이터를 정의 언어 (Data Definition Language) : DDL
+
+ - 데이터 정의 언어 (Data Definition Language) : DDL
+  - CREATE, ALTER, DROP, TRUNCATE, RENAME
  - 데이터 조작 언어 (Data Manipulation Language) : DML
+  - INSERT, UPDATE, DELETE
  - 데이터 질의 언어 (Data Query Language) : DQL
  - 데이터 제어 언어 (Data Control Language) : DCL
  - 트랜잭션 제어 언어 (Transaction Control Language) : TCL
@@ -134,7 +137,7 @@ DROP USER '사용자명'@'호스트명';
 
 ## 제약조건 (Constaint)
 - 무결성 (Integrity)  
-  1. NOT NULL
+  1. NOT NULL (필수)
     - 해당 컬럼(속성)에는 NULL 값이 허용되지 않음
     - 반드시 유효한 값이 있어야 함
   2. UNIQUE
@@ -144,7 +147,7 @@ DROP USER '사용자명'@'호스트명';
   3. PRIMARY KEY
     - 각 행을 유일하게 식별할 수 있는 열(또는 열의 조합)
     - NOT NULL, UNIQUE
-  4. FOREIGN KRY
+  4. FOREIGN KEY 
     - 한 테이블의 열이 다른 테이블의 PK를 참조
     - 참조 무결성 유지
     - 테이블의 관계를 정의
@@ -279,3 +282,20 @@ CREATE TABLE 테이블명 (
       ALTER TABLE 테이블명
       RENAME TO 새로운테이블명;
       ```
+  ## CONSTRAINT 제약조건명 (제약조건 이름 명시하기)
+    - 제약조건은 생성시 이름을 생략하고 만들 수 있음
+    - 생략하고 만들 경우 자동으로 제약조건의 이름이 부여 됨
+    - 생성 시 `CONSTARINT 제약조건명` 이 부여되면, 제약조건 이름을 명시할 수 있음
+    - 제약조건의 이름을 확인하기 위해서는 DB객체나 DDL을 확인하면 됨
+
+  ```sql
+  -- 1. information_schema 오브젝트를 통해 확인
+    -- CONTRAINT_NAME 필드 : 제약조건의 이름
+      SELECT * FROM information_schema.table_constraints
+      WHERE table_name = '테이블명';  -- 테이블명
+
+  -- 2. DDL을 통해 확인
+    -- SHOW CREATE TABLE 스키마명.테이블명;
+    -- 워크벤치의 경우 open value in viewer
+      SHOW CREATE TABLE employees;
+  ```
