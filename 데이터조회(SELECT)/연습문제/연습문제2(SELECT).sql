@@ -37,9 +37,9 @@ WHERE Population >= 8000000;
 -- 문제 8: CountryLanguage 테이블에서 'English'를 공식 언어로 사용하지 않는 국가의 국가 코드(CountryCode)와 언어(Language)를 조회하세요.
  -- 단, 언어 사용 비율(Percentage)이 50% 이상인 경우만 포함하세요.
  SELECT * FROM Country;
- SELECT CountryCode , Language
+ SELECT CountryCode , Language, Percentage
  FROM CountryLanguage
- WHERE Language != 'English' AND Isofficial = 'F' AND  Percentage >= 50.0;
+ WHERE Language = 'English' AND Isofficial = 'F'  AND  Percentage >= 50.0;
 
 -- 문제 9: Country 테이블에서 GNP가 200000 이상이며 생명 기대치(LifeExpectancy)가 75 이상인 국가의 이름(Name), GNP, 생명 기대치(LifeExpectancy)를 조회하세요.
 SELECT Name, GNP, LifeExpectancy
