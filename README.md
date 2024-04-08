@@ -408,3 +408,142 @@ WHERE 조건식;
 - 프로젝트 (애트리뷰트)
 - π 이름, 주소 (고객) : 고객 테이블에서 이름 주소 속성만 선택
     ` SELECT 이름, 주소 FROM 고객`
+
+- 별칭 (AS) 사용하기
+  `SELECT 컬럼명 AS 별칭 FROM 테이블명 AS 별칭`
+  1. 컬럼명에 별칭을 지정하면 쿼리 결과의 헤더로 사용
+  2. 테이블명에 별칭을 사용하면 쿼리문의 테이블을 간결하게 사용할 수 있음
+    -> JOIN문에 사용
+  3. AS 생략 가능
+
+- BETWEEN ... AND
+  -특정 값 찾기
+  ```SQL
+  SELECT 컬럼명 ...
+  FROM 테이블명
+  WHERE 컬럼명 BETWEEN 범위1 AND 범위2;
+  ```
+  - 특정 컬럼의 범위를 조회하고 범위1, 범위2값 모두 포함
+  - 날짜, 숫자, 문자열 등 사용가능
+
+- IN
+  - 주어진 목록 안의 값들 중 하나와 일치하는 행 => OR 조건
+  ```SQL
+  SELECT 컬럼명, ...
+  FROM 테이블명
+  WHERE 컬럼명 IN (값1, 값2, ...);
+  ```
+  - IN : 컬럼 = 값1 OR 컬럼 = 값2;
+  - NOT IN : 컬럼 != 값1 AND 컬럼 != 값2;
+
+- LIKE
+  - 문자열 패턴 매칭
+  - '%' 0개 이상의 문자, '_' : 정확한 한 문자 대신
+  ```SQL
+  SELECT 컬럼명, ...
+  FROM 테이블명
+  WHERE 컬럼명 LIKE '패턴;
+  ```
+  - A로 시작하는 경우 'A%'
+  - A를 포함하는 경우 '%A%'
+
+- ORDER BY
+- 단일열 또는 두 개 이상의 열을 기준으로 오름차순 또는 내림차순으로 정렬
+  ```SQL
+  SELECT 컬럼명, ...
+  FROM 테이블명
+  ORDER BY 컬럼명 ASC|DESC, ...
+  ```
+
+  - LIMIT
+    - 출력 결과 수 제한
+    ```SQL
+    SELECT 컬럼명, ...
+    FROM 테이블명
+    LIMIT 제한할 행개수
+    OFFSET 시작할 행번호
+    ```
+    - OFFSET과 함께 사용하면 대량의 데이터 페이지네이션에 사용
+
+  - DISTINCT
+    - 중복된 결과 제거하고, 유일하고 고유한 값만 남기기 위해 사용
+    ```SQL
+    SELECT DISTINCT 컬럼명, ...
+    FROM 테이블명
+    ```
+
+    ### 집계 함수
+      - 데이터베이스에서 여러 행으로부터 단일 결과 값을 도출하는 데 사용
+      - 데이터 분석, 요약 등에 유용하게 활용
+      - COUNT, SUM, AVG, MIN, MAX 등
+
+      - GROUP BY
+      ```SQL
+      SELECT 그룹기준컬럼명 ..., 집계함수(집계컬럼)
+      FROM 테이블명
+      [WHERE 조건식]
+      GROUP BY 그룹기준컬럼명 ..
+      [HAVING 그룹조건식]
+      [ORDER BY 정렬 기준 컬럼]
+      ```
+      - 그룹기준 컬럼명 : 그룹화를 할 기준이 되는 열
+      - 집계컬럼 : 그룹에 적용할 집계함수의 대상이 되는 열
+
+      - WITH ROLLUP
+        - 총합 또는 중간합계가 필요할 때 GROUP BY 절과 함께 사용
+        ```SQL
+        SELECT 그룹기준컬럼명 ..., 집계함수(집계컬럼)
+        FROM 테이블명
+        GROUP BY 그룹기준컬럼명 ..
+        WITH ROLLUP
+        ```
+    ### JOin, 데이터 결합
+    - Join
+      - 두 개 이상의 테이블을 묶어서(결합하여)
+      - 새로운 결과 집합(result set)을 만들어내는 것
+    - Join의 종류
+      1. Inner Join : 두 테이블의 교집합
+        - 양쪽 테이블에 모두 존해하는 데이터를 결합
+      2. Outer Join :
+        - 다른 테이블 결합이 매칭 되지 않는 경우도 데이터 포함
+        1. Left Outer Join
+        2. Right Outer Join
+        3. Full Outer Join
+      3. Self Join
+        - 같은 테이블을 두 번 참조하여 결합
+      4. Cross Join
+        - 두 테이블 간의 가능한 모든 조합
+        - Cartesian Product
+      - 명시적 조인, 암시적 조인
+        - 암시적 조인 (implicit join)
+          - WHERE 절에 JOIN 컨디션을 명시하는 방식
+          - 오래된 조인 문법, 복잡한 쿼리 작성 시 실수 가능함
+        - 명시적 조인 (explicit join)
+          - JOIN 키워드를 사용해서 테이블을 결합
+          - ON 키워드에 JOIN 컨디션을 명시
+          - 가독성 및 유지보수성 향상
+
+      - 기본문법
+      ```SQL
+      SELECT 컬럼명
+      FROM 테이블명1
+      [INEER|LEFT|RIGHT] JOIN 테이블명2 ON 테이블1.공통컬럼 = 테이블2.공통컬럼
+      ```
+      - JOIN 다음에 결합한 테이블명
+      - ON 다음에 (JOIN CONDITION)
+      - 일반적으로 테이블명을 줄인 약칭을 사용
+      - JOIN 키워드 앞에 [INEER|LEFT|RIGHT] 생략할 경우 INEER JOIN
+
+      - 등가 조인(equi join)과 비등가 조인(non-equi join)
+        - 등가 조인 : 등호(=)을 통해서 2개 이상의 테이블 결합
+        - 비등가 조인 : 등호를 제외한 비교 연산자를 통해 테이블 결합
+      
+      - USING 구문과 NATRUAL JOIN
+        - USING 두 테이블에서 공통된 열 이름이 있을 때 유용
+        - NATRUAL JOIN 공통 열이 존재할 때 조건 명시 없이 사용
+        - 가독성 및 간결성 향상
+        - 주의사항
+          - 서로 다른 테이블의 조인 조건과 별개의 동일이름 동일 타입이 존재할 경우,
+          예측 불가능한 결과를 가져올 수 있음
+          - 예. 직원 테이블의 NAME = 직원이름, 문자열,
+                부서 테이블의 NAME = 부서명, 문자열
